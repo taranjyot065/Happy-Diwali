@@ -231,7 +231,7 @@ function light(i, fromTap) {
 function finish() {
   $("finale").classList.add("show");
   setTimeout(() => $("finale").scrollIntoView({behavior: "smooth", block: "center"}), 400);
-  show(); 
+  show();
 }
 
 $("lightAll").addEventListener("click", () => {
@@ -246,15 +246,51 @@ if (sender) { $("from").textContent = "With love, " + sender; $("name").value = 
 else { $("from").textContent = "Happy Diwali!"; }
 $("yr").textContent = new Date().getFullYear();
 
+async function copyLink(url) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(url);
+    return true;
+  }
+
+  // Clipboard API is unavailable on non-HTTPS pages and some Chrome contexts.
+  const field = document.createElement("textarea");
+  field.value = url;
+  field.setAttribute("readonly", "");
+  field.style.position = "fixed";
+  field.style.opacity = "0";
+  document.body.appendChild(field);
+  field.select();
+  let copied = false;
+  try { copied = document.execCommand("copy"); }
+  finally { document.body.removeChild(field); }
+  return copied;
+}
+
 $("shareBtn").addEventListener("click", async () => {
   const name = $("name").value.trim();
-  const url = location.origin + location.pathname + (name ? "?from=" + encodeURIComponent(name) : "");
+  // Preserve the actual page URL (including GitHub Pages paths), rather than
+  // rebuilding it from location.origin, which is "null" for local file URLs.
+  const shareUrl = new URL(location.href);
+  if (name) shareUrl.searchParams.set("from", name);
+  else shareUrl.searchParams.delete("from");
+  const url = shareUrl.href;
   const text = "Light a diya for everyone you love. Happy Diwali!";
+  $("msg").textContent = "";
+
+  if (navigator.share && window.isSecureContext) {
+    try {
+      await navigator.share({title: "Shubh Deepavali", text, url});
+      return;
+    } catch (e) {
+      if (e.name === "AbortError") return;
+    }
+  }
+
   try {
-    if (navigator.share) { await navigator.share({title: "Shubh Deepavali", text, url}); }
-    else { await navigator.clipboard.writeText(url); $("msg").textContent = "Link copied. Paste it in WhatsApp or any chat."; }
+    if (await copyLink(url)) $("msg").textContent = "Link copied. Paste it in WhatsApp or any chat.";
+    else $("msg").textContent = "Copy this link: " + url;
   } catch (e) {
-    if (e.name !== "AbortError") $("msg").textContent = "Copy this link: " + url;
+    $("msg").textContent = "Copy this link: " + url;
   }
 });
 
