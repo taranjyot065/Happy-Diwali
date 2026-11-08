@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shubh Deepavali – Happy Diwali</title>
+<meta name="description" content="Light a diya for everyone you love. Happy Diwali!">
+<meta name="theme-color" content="#14102b">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪔</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#14102b; --deep:#221a4d; --gold:#f6b93b; --saffron:#ff8a1f;
+  --rose:#e8527a; --cream:#fff3d6; --mute:#b9afdc;
+  --display:"Yatra One","Noto Serif Devanagari",Georgia,serif;
+  --body:"Hind","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;font-family:var(--body);color:var(--cream);line-height:1.6;
+  background:
+    radial-gradient(60rem 30rem at 50% -10%,#3b2a7a55,transparent 70%),
+    radial-gradient(40rem 30rem at 90% 100%,#e8527a22,transparent 70%),
+    var(--night);
+  overflow-x:hidden;
+}
+/* tiny rangoli-dot sparkle field */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(1.5px 1.5px at 20px 30px,#f6b93b88,transparent),
+                   radial-gradient(1px 1px at 90px 80px,#fff8,transparent),
+                   radial-gradient(1.5px 1.5px at 150px 20px,#ff8a1f88,transparent);
+  background-size:180px 120px;
+  animation:twinkle 5s ease-in-out infinite alternate;
+}
+@keyframes twinkle{from{opacity:.25}to{opacity:.65}}
+main{position:relative;max-width:68rem;margin:0 auto;padding:clamp(1.5rem,5vw,4rem) 1.25rem 4rem}
+canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
+
+/* hero */
+header{text-align:center;padding:2rem 0 1rem}
+h1{
+  font-family:var(--display);font-weight:400;line-height:1.05;
+  font-size:clamp(3rem,13vw,8rem);letter-spacing:.01em;
+  background:linear-gradient(180deg,#ffe29a 10%,var(--gold) 50%,var(--saffron) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 28px #ff8a1f55);
+  animation:rise 1.4s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(24px) scale(.97);filter:blur(8px)}to{opacity:1;transform:none}}
+.sub{font-size:clamp(1.1rem,3.2vw,1.5rem);color:var(--cream);margin-top:.5rem}
+.hint{color:var(--mute);margin-top:.25rem}
+
+/* diyas */
+.diyas{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));
+  gap:1.25rem .75rem;margin:3rem 0 2rem;
+}
+.diya{
+  position:relative;background:none;border:0;color:inherit;font:inherit;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.5rem;border-radius:1rem;
+}
+.diya:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.diya .glow{
+  position:absolute;top:0;left:50%;width:11rem;height:11rem;translate:-50% -20%;
+  background:radial-gradient(circle,#ffb23d88,#ff8a1f22 45%,transparent 70%);
+  opacity:0;transition:opacity .9s;pointer-events:none;
+}
+.diya svg{width:7.5rem;height:7.5rem;position:relative;overflow:visible}
+.flame{transform-origin:60px 66px;transform:scale(0);opacity:0;transition:transform .6s cubic-bezier(.3,1.6,.5,1),opacity .4s}
+.diya[aria-pressed="true"] .flame{transform:scale(1);opacity:1;animation:flicker 1.6s ease-in-out .6s infinite alternate}
+.diya[aria-pressed="true"] .glow{opacity:1}
+@keyframes flicker{
+  0%{transform:scale(1,1) rotate(-1.5deg)}
+  50%{transform:scale(.94,1.06) rotate(1.5deg)}
+  100%{transform:scale(1.03,.97) rotate(-.5deg)}
+}
+
+.tools{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-bottom:2.5rem}
+.btn{
+  font:600 1rem var(--body);cursor:pointer;color:var(--night);
+  background:linear-gradient(180deg,#ffd36b,var(--gold));border:0;border-radius:999px;padding:.7rem 1.4rem;
+  box-shadow:0 6px 24px #f6b93b33;transition:transform .15s,box-shadow .15s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px #f6b93b55}
+.btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--cream);border:1.5px solid #f6b93b88;box-shadow:none}
+
+/* wish */
+.wish{max-width:38rem;margin:0 auto;text-align:center;display:grid;gap:.9rem}
+.wish p{
+  font-family:var(--display);font-size:clamp(1.3rem,4vw,1.8rem);line-height:1.35;color:var(--cream);
+  opacity:.12;transform:translateY(8px);transition:opacity 1s,transform 1s;
+}
+.wish p.on{opacity:1;transform:none}
+.wish p:last-child.on{color:var(--gold)}
+
+/* finale */
+.finale{
+  margin:3rem auto 0;max-width:40rem;text-align:center;padding:2rem 1.25rem;border-radius:1.5rem;
+  background:radial-gradient(circle at 50% 0,#ff8a1f33,transparent 70%);border:1px solid #f6b93b66;
+  display:none;
+}
+.finale.show{display:block;animation:rise 1s both}
+.finale h2{font-family:var(--display);font-weight:400;font-size:clamp(1.8rem,6vw,2.8rem);color:var(--gold)}
+.finale p{margin-top:.6rem;font-size:1.15rem}
+.from{margin-top:1rem;font-family:var(--display);font-size:1.5rem;color:var(--cream)}
+
+/* personalise */
+.share{margin:3.5rem auto 0;max-width:30rem;text-align:center}
+.share h3{font-weight:600;font-size:1.1rem;margin-bottom:.6rem}
+.share .row{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center}
+.share input{
+  flex:1 1 12rem;font:inherit;color:var(--cream);background:#ffffff0d;border:1.5px solid #b9afdc55;
+  border-radius:999px;padding:.65rem 1.1rem;
+}
+.share input:focus-visible{outline:2px solid var(--gold);border-color:transparent}
+.share input::placeholder{color:#b9afdc99}
+#msg{min-height:1.5rem;margin-top:.6rem;color:var(--gold)}
+footer{text-align:center;color:var(--mute);margin-top:3rem;font-size:.95rem}
+
+/* name watermark */
+.mark{
+  position:fixed;top:.8rem;right:1rem;z-index:50;pointer-events:none;user-select:none;
+  font-family:var(--display);font-size:1rem;letter-spacing:.12em;color:var(--gold);opacity:.5;
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="mark" aria-hidden="true">Taranjyot Singh</div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<main>
+  <header>
+    <h1>शुभ दीपावली</h1>
+    <p class="sub">Happy Diwali to all my family, friends and loved ones</p>
+    <p class="hint">Light each diya to reveal the wish.</p>
+  </header>
+
+  <section class="diyas" id="diyas" aria-label="Diyas to light"></section>
+
+  <div class="tools">
+    <button class="btn" id="lightAll" type="button">Light all diyas</button>
+    <button class="btn ghost" id="burst" type="button">Fireworks</button>
+  </div>
+
+  <section class="wish" id="wish" aria-live="polite"></section>
+
+  <section class="finale" id="finale">
+    <h2>Shubh Deepavali</h2>
+    <p>Every diya is lit. Thank you for being part of my light.</p>
+    <p class="from" id="from"></p>
+  </section>
+
+  <section class="share">
+    <h3>Send this to your own people</h3>
+    <div class="row">
+      <input id="name" type="text" maxlength="40" placeholder="Your name" aria-label="Your name">
+      <button class="btn" id="shareBtn" type="button">Share my greeting</button>
+    </div>
+    <p id="msg" role="status"></p>
+  </section>
+
+  <footer>Made with love and a little ghee · Diwali <span id="yr"></span></footer>
+</main>
+
+<script>
+const lines = [
+  "May the light of these diyas fill your home with joy.",
+  "May every worry fade and every dream find its way.",
+  "May health, love and laughter stay with you all year.",
+  "May sweet moments and good fortune follow you everywhere.",
+  "Happy Diwali to all my family, friends and loved ones."
+];
+
+const $ = id => document.getElementById(id);
+const diyaBox = $("diyas"), wishBox = $("wish");
+
+const diyaSVG = `
+<svg viewBox="0 0 120 120" aria-hidden="true">
+  <defs>
+    <linearGradient id="fl{i}" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#ff5a1f"/><stop offset=".55" stop-color="#ffb23d"/><stop offset="1" stop-color="#fff3b0"/>
+    </linearGradient>
+    <linearGradient id="bw{i}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8873a"/><stop offset="1" stop-color="#8a3a1a"/>
+    </linearGradient>
+  </defs>
+  <g class="flame">
+    <path d="M60 18C74 38 76 52 60 68 44 52 46 38 60 18Z" fill="url(#fl{i})"/>
+    <path d="M60 44C66 52 66 60 60 66 54 60 54 52 60 44Z" fill="#fffbe0"/>
+  </g>
+  <path d="M60 66v8" stroke="#3a1a0a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M8 74Q60 74 112 74 104 108 60 112 16 108 8 74Z" fill="url(#bw{i})"/>
+  <path d="M8 74Q60 82 112 74" fill="none" stroke="#ffd36b" stroke-width="3"/>
+  <circle cx="40" cy="92" r="3" fill="#ffd36b"/><circle cx="60" cy="98" r="3" fill="#ffd36b"/><circle cx="80" cy="92" r="3" fill="#ffd36b"/>
+</svg>`;
+
+lines.forEach((text, i) => {
+  const b = document.createElement("button");
+  b.className = "diya"; b.type = "button"; b.setAttribute("aria-pressed", "false");
+  b.setAttribute("aria-label", "Light diya " + (i + 1));
+  b.innerHTML = `<span class="glow"></span>${diyaSVG.replaceAll("{i}", i)}`;
+  b.addEventListener("click", () => light(i, true));
+  diyaBox.appendChild(b);
+
+  const p = document.createElement("p");
+  p.id = "line" + i; p.textContent = text;
+  wishBox.appendChild(p);
+});
+
+function light(i, fromTap) {
+  const b = diyaBox.children[i];
+  if (b.getAttribute("aria-pressed") === "true") return;
+  b.setAttribute("aria-pressed", "true");
+  b.setAttribute("aria-label", "Diya " + (i + 1) + " is lit");
+  $("line" + i).classList.add("on");
+  if (fromTap) {
+    const r = b.getBoundingClientRect();
+    sparks(r.left + r.width / 2, r.top + r.height * .25, 28);
+  }
+  if ([...diyaBox.children].every(x => x.getAttribute("aria-pressed") === "true")) finish();
+}
+
+function finish() {
+  $("finale").classList.add("show");
+  setTimeout(() => $("finale").scrollIntoView({behavior: "smooth", block: "center"}), 400);
+  show(); 
+}
+
+$("lightAll").addEventListener("click", () => {
+  lines.forEach((_, i) => setTimeout(() => light(i, true), i * 350));
+});
+$("burst").addEventListener("click", show);
+
+/* personal name via ?from=Name */
+const params = new URLSearchParams(location.search);
+const sender = (params.get("from") || "").trim().slice(0, 40);
+if (sender) { $("from").textContent = "With love, " + sender; $("name").value = sender; }
+else { $("from").textContent = "Happy Diwali!"; }
+$("yr").textContent = new Date().getFullYear();
+
+$("shareBtn").addEventListener("click", async () => {
+  const name = $("name").value.trim();
+  const url = location.origin + location.pathname + (name ? "?from=" + encodeURIComponent(name) : "");
+  const text = "Light a diya for everyone you love. Happy Diwali!";
+  try {
+    if (navigator.share) { await navigator.share({title: "Shubh Deepavali", text, url}); }
+    else { await navigator.clipboard.writeText(url); $("msg").textContent = "Link copied. Paste it in WhatsApp or any chat."; }
+  } catch (e) {
+    if (e.name !== "AbortError") $("msg").textContent = "Copy this link: " + url;
+  }
+});
+
+/* fireworks */
+const cv = $("fx"), ctx = cv.getContext("2d");
+let W, H, parts = [], running = false;
+const fit = () => { W = cv.width = innerWidth; H = cv.height = innerHeight; };
+addEventListener("resize", fit); fit();
+const cols = ["#f6b93b", "#ff8a1f", "#e8527a", "#fff3d6", "#ffd36b", "#ff5a8a"];
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function sparks(x, y, n) {
+  if (reduce) return;
+  const col = cols[Math.random() * cols.length | 0];
+  for (let k = 0; k < n; k++) {
+    const a = Math.random() * 6.283, v = 1 + Math.random() * 4.5;
+    parts.push({x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, c: Math.random() < .3 ? "#fff3d6" : col});
+  }
+  if (!running) { running = true; requestAnimationFrame(tick); }
+}
+function show() {
+  if (reduce) return;
+  for (let k = 0; k < 7; k++)
+    setTimeout(() => sparks(W * (.15 + Math.random() * .7), H * (.12 + Math.random() * .4), 70), k * 380);
+}
+function tick() {
+  ctx.clearRect(0, 0, W, H);
+  parts = parts.filter(p => p.life > 0);
+  for (const p of parts) {
+    p.x += p.vx; p.y += p.vy; p.vy += .05; p.vx *= .985; p.life -= .014;
+    ctx.globalAlpha = Math.max(p.life, 0); ctx.fillStyle = p.c;
+    ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, 6.283); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  if (parts.length) requestAnimationFrame(tick); else { running = false; ctx.clearRect(0, 0, W, H); }
+}
+</script>
+</body>
+</html>
